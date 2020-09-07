@@ -13,14 +13,14 @@ export const registerController = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 
 	console.log("PRIV KEY: ", process.env.PRIV_KEY);
-	console.log("PRIV KEY JSON PARSE: ", JSON.parse(process.env.PRIV_KEY as string));
+	console.log("PRIV KEY JSON PARSE: ", process.env.PRIV_KEY as string);
 
 	const id = generateId();
 
 	try {
 		const xToken = await issueAccessToken(
 			id,
-			JSON.parse(process.env.PRIV_KEY as string),
+			process.env.PRIV_KEY as string,
 			"30d"
 		).catch(err => console.log(err));
 

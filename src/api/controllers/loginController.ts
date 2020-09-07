@@ -44,14 +44,8 @@ export const loginController = async (req: Request, res: Response, next: NextFun
 		if (isMatch) {
 			const user = constructUserWithoutPasswordFromSqlResult(rows[0]);
 
-			const xTokenPromise = issueAccessToken(
-				user.id,
-				JSON.parse(process.env.PRIV_KEY as string)
-			);
-			const xRefreshTokenPromise = issueRefreshToken(
-				user,
-				JSON.parse(process.env.PRIV_KEY as string)
-			);
+			const xTokenPromise = issueAccessToken(user.id, process.env.PRIV_KEY as string);
+			const xRefreshTokenPromise = issueRefreshToken(user, process.env.PRIV_KEY as string);
 
 			Promise.all([xTokenPromise, xRefreshTokenPromise])
 				.then(values => {

@@ -16,7 +16,7 @@ export const authenticateWithJwtStrategy = (req: Request, res: Response, next: N
 		const xToken = removeBearerFromTokenHeader(accessTokenFromHeader);
 
 		try {
-			const decoded = jwt.verify(xToken, JSON.parse(process.env.PUB_KEY as string));
+			const decoded = jwt.verify(xToken, process.env.PUB_KEY as string);
 
 			if (typeof decoded === "object") {
 				res.status(200).json({
@@ -42,6 +42,6 @@ export const authenticateWithJwtStrategy = (req: Request, res: Response, next: N
 
 	const customRefreshXToken = refreshXToken(req, res, next);
 
-	customRefreshXToken(accessTokenFromHeader, refreshTokenFromHeader!, JSON.parse(process.env.PUB_KEY as string));
+	customRefreshXToken(accessTokenFromHeader, refreshTokenFromHeader!, process.env.PUB_KEY as string);
 };
  */
