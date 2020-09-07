@@ -13,7 +13,6 @@ export const registerController = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 
 	console.log("PRIV KEY: ", process.env.PRIV_KEY);
-	console.log("PRIV KEY JSON PARSE: ", process.env.PRIV_KEY as string);
 
 	const id = generateId();
 
