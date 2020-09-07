@@ -8,8 +8,6 @@ import morgan from "morgan";
 const app = express();
 const PORT = process.env.PORT || 7000;
 
-console.log("FRONTEND URL", process.env.FRONTEND_URL);
-
 app.use(express.json());
 app.use(
 	cors({
