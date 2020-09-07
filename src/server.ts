@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: process.env.FRONTEND_URL,
+		credentials: true,
 		exposedHeaders: ["x-token"],
 	})
 );
