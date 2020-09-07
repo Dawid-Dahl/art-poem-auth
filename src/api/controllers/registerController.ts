@@ -35,7 +35,7 @@ export const registerController = async (req: Request, res: Response) => {
 				//check that main API is available
 
 				try {
-					await fetch(`${process.env.MAIN_FETCH_URL}/api/ping`);
+					await fetch(`${process.env.API_FETCH_URL}/api/ping`);
 				} catch (e) {
 					console.error("Could not connect to main API. No user created --", e);
 
@@ -70,7 +70,7 @@ export const registerController = async (req: Request, res: Response) => {
 				//register user in main db
 
 				try {
-					await fetch(`${process.env.MAIN_FETCH_URL}/api/users/create`, {
+					await fetch(`${process.env.API_FETCH_URL}/api/users/create`, {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
