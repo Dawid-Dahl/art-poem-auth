@@ -1,0 +1,12 @@
+node_modules
+dist
+.cache
+.env
+auth_users.db
+refresh_tokens.db
+cryptography/
+poem-art-40049b821725.json
+.idea/
+.vscode/
+tmp/
+temp/
