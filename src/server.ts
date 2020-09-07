@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 7000;
 app.use(express.json());
 app.use(
 	cors({
-		origin: "http://localhost:1234",
+		origin: process.env.FRONTEND_URL,
 		exposedHeaders: ["x-token"],
 	})
 );
