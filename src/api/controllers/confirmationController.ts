@@ -14,7 +14,7 @@ config({
 export const confirmationController = (req: Request, res: Response, next: NextFunction) => {
 	jwt.verify(
 		req.params.token,
-		JSON.parse(process.env.PUB_KEY as string),
+		JSON.parse(process.env.PUB_KEY as string) as string,
 		async (err, decodedJwt) => {
 			if (err) {
 				console.log(err);
