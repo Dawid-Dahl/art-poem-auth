@@ -12,6 +12,8 @@ import {PoolClient} from "pg";
 export const registerController = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 
+	console.log("REQ.BODY", req.body);
+
 	const id = generateId();
 
 	try {

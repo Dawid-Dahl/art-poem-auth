@@ -66,8 +66,6 @@ export const issueAccessToken = (userId: AuthUser["id"], privKey: string, expire
 		sub: userId,
 	};
 
-	console.log("PRIV KEY IS: ", privKey);
-
 	const signedXTokenPromise = new Promise<string>((res, rej) => {
 		jwt.sign(payload, privKey, {expiresIn, algorithm: "RS256"}, (err, xToken) =>
 			err ? rej(err) : res(xToken)
