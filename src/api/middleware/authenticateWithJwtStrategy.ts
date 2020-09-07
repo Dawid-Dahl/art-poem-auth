@@ -1,11 +1,7 @@
-/* import path from "path";
-import fs from "fs";
+/*
 import {Request, Response, NextFunction} from "express";
 import {refreshXToken, removeBearerFromTokenHeader} from "../utils/utils";
 import jwt from "jsonwebtoken";
-
-const PUB_KEY_PATH = path.join(__dirname, "..", "cryptography", "id_rsa_pub.pem");
-const PUB_KEY = fs.readFileSync(PUB_KEY_PATH, "utf8");
 
 export const authenticateWithJwtStrategy = (req: Request, res: Response, next: NextFunction) => {
 	const accessTokenFromHeader = req.get("authorization");
@@ -20,7 +16,7 @@ export const authenticateWithJwtStrategy = (req: Request, res: Response, next: N
 		const xToken = removeBearerFromTokenHeader(accessTokenFromHeader);
 
 		try {
-			const decoded = jwt.verify(xToken, PUB_KEY);
+			const decoded = jwt.verify(xToken, process.env.PUB_KEY as string);
 
 			if (typeof decoded === "object") {
 				res.status(200).json({
@@ -46,6 +42,6 @@ export const authenticateWithJwtStrategy = (req: Request, res: Response, next: N
 
 	const customRefreshXToken = refreshXToken(req, res, next);
 
-	customRefreshXToken(accessTokenFromHeader, refreshTokenFromHeader!, PUB_KEY);
+	customRefreshXToken(accessTokenFromHeader, refreshTokenFromHeader!, process.env.PUB_KEY as string);
 };
  */

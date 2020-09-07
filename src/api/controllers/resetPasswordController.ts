@@ -1,5 +1,3 @@
-import path from "path";
-import fs from "fs";
 import {Request, Response} from "express";
 import jwt from "jsonwebtoken";
 import {Tables} from "../types/enums";
@@ -15,9 +13,6 @@ config({
 });
 
 export const resetPasswordController = (req: Request, res: Response) => {
-	const PUB_KEY_PATH = path.join(__dirname, "../..", "cryptography", "id_rsa_pub.pem");
-	const PUB_KEY = fs.readFileSync(PUB_KEY_PATH, "utf8");
-
 	const errors = validationResult(req);
 
 	const {password, resetToken}: {password: string; resetToken: string} = req.body;
@@ -40,7 +35,7 @@ export const resetPasswordController = (req: Request, res: Response) => {
 	}
 
 	if (errors.isEmpty()) {
-		jwt.verify(resetToken, PUB_KEY, (err, decodedJwt) => {
+		jwt.verify(resetToken, process.env.PUB_KEY as string, (err, decodedJwt) => {
 			if (err) {
 				console.log(err);
 				res.status(401).json(

@@ -1,5 +1,3 @@
-import path from "path";
-import fs from "fs";
 import {Request, Response} from "express";
 import {Tables} from "../types/enums";
 import {AuthUser} from "../types/types";
@@ -10,9 +8,6 @@ import getClient from "../../db/db";
 import {PoolClient} from "pg";
 
 export const forgotMyPasswordController = async (req: Request, res: Response) => {
-	const PRIV_KEY_PATH = path.join(__dirname, "../../", "cryptography", "id_rsa_priv.pem");
-	const PRIV_KEY = fs.readFileSync(PRIV_KEY_PATH, "utf8");
-
 	const client = (await getClient()) as PoolClient;
 
 	try {
@@ -23,7 +18,11 @@ export const forgotMyPasswordController = async (req: Request, res: Response) =>
 
 		if (rowCount) {
 			try {
-				const xToken = await issueAccessToken(rows[0].id, PRIV_KEY, "1h");
+				const xToken = await issueAccessToken(
+					rows[0].id,
+					process.env.PRIV_KEY as string,
+					"1h"
+				);
 
 				if (!xToken)
 					throw new Error("Something went wrong while issueing the access token!");

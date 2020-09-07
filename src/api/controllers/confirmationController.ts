@@ -1,5 +1,3 @@
-import path from "path";
-import fs from "fs";
 import {Request, Response, NextFunction} from "express";
 import jwt from "jsonwebtoken";
 import {Tables} from "../types/enums";
@@ -13,11 +11,8 @@ config({
 	path: "../../.env",
 });
 
-const PUB_KEY_PATH = path.join(__dirname, "../..", "cryptography", "id_rsa_pub.pem");
-const PUB_KEY = fs.readFileSync(PUB_KEY_PATH, "utf8");
-
 export const confirmationController = (req: Request, res: Response, next: NextFunction) => {
-	jwt.verify(req.params.token, PUB_KEY, async (err, decodedJwt) => {
+	jwt.verify(req.params.token, process.env.PUB_KEY as string, async (err, decodedJwt) => {
 		if (err) {
 			console.log(err);
 			res.status(500).json(

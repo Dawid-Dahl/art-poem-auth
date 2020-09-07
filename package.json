@@ -2,11 +2,11 @@
 	"name": "auth-api",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "server.js",
 	"scripts": {
 		"start": "node dist/server.js",
 		"dev": "nodemon ./src/server.ts",
-		"build": "tsc -p .",
+		"build": "tsc",
 		"seed": "cd api/models && npx ts-node migrations && npx ts-node seed"
 	},
 	"author": "Dawid Dahl",

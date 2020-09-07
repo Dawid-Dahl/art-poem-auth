@@ -1,5 +1,3 @@
-import path from "path";
-import fs from "fs";
 import {Request, Response, NextFunction} from "express";
 import bcrypt from "bcrypt";
 import {Tables} from "../types/enums";
@@ -17,9 +15,6 @@ import getClient from "../../db/db";
 import {PoolClient} from "pg";
 
 export const loginController = async (req: Request, res: Response, next: NextFunction) => {
-	const PRIV_KEY_PATH = path.join(__dirname, "../../", "cryptography", "id_rsa_priv.pem");
-	const PRIV_KEY = fs.readFileSync(PRIV_KEY_PATH, "utf8");
-
 	const client = (await getClient()) as PoolClient;
 
 	try {
@@ -49,8 +44,8 @@ export const loginController = async (req: Request, res: Response, next: NextFun
 		if (isMatch) {
 			const user = constructUserWithoutPasswordFromSqlResult(rows[0]);
 
-			const xTokenPromise = issueAccessToken(user.id, PRIV_KEY);
-			const xRefreshTokenPromise = issueRefreshToken(user, PRIV_KEY);
+			const xTokenPromise = issueAccessToken(user.id, process.env.PRIV_KEY as string);
+			const xRefreshTokenPromise = issueRefreshToken(user, process.env.PRIV_KEY as string);
 
 			Promise.all([xTokenPromise, xRefreshTokenPromise])
 				.then(values => {

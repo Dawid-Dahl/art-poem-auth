@@ -1,5 +1,3 @@
-import path from "path";
-import fs from "fs";
 import {Request, Response} from "express";
 import {validationResult} from "express-validator";
 import {Tables} from "../types/enums";
@@ -15,10 +13,10 @@ export const registerController = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 
 	const id = generateId();
-	const PRIV_KEY_PATH = path.join(__dirname, "../../", "cryptography", "id_rsa_priv.pem");
-	const PRIV_KEY = fs.readFileSync(PRIV_KEY_PATH, "utf8");
 
-	const xToken = await issueAccessToken(id, PRIV_KEY, "30d").catch(err => console.log(err));
+	const xToken = await issueAccessToken(id, process.env.PRIV_KEY as string, "30d").catch(err =>
+		console.log(err)
+	);
 
 	if (!xToken) throw new Error("Something went wrong while issueing the access token!");
 

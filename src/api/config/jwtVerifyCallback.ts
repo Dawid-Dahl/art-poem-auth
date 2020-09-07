@@ -1,10 +1,5 @@
-import path from "path";
-import fs from "fs";
 import jwt from "jsonwebtoken";
 import {JwtVerifyCallback, xTokenPayload} from "../types/types";
-
-const PUB_KEY_PATH = path.join(__dirname, "../..", "cryptography", "id_rsa_pub.pem");
-const PUB_KEY = fs.readFileSync(PUB_KEY_PATH, "utf8");
 
 const jwtVerifyCallback: JwtVerifyCallback = (done, xRefreshToken, xToken) => {
 	if (!xToken && !xRefreshToken) {
@@ -16,26 +11,30 @@ const jwtVerifyCallback: JwtVerifyCallback = (done, xRefreshToken, xToken) => {
 	}
 
 	if (xToken && xRefreshToken) {
-		jwt.verify(xToken, PUB_KEY, (err, decodedXToken) => {
+		jwt.verify(xToken, process.env.PUB_KEY as string, (err, decodedXToken) => {
 			if (err) {
-				jwt.verify(xRefreshToken, PUB_KEY, (err, decodedXRefreshToken) => {
-					if (err) {
-						done(
-							err,
-							false,
-							"x-refresh-token has expired, is invalid, or is blacklisted. Log in to get a new one."
-						);
-					} else {
-						if (decodedXRefreshToken) {
+				jwt.verify(
+					xRefreshToken,
+					process.env.PUB_KEY as string,
+					(err, decodedXRefreshToken) => {
+						if (err) {
 							done(
-								null,
-								decodedXRefreshToken as xTokenPayload,
-								"x-refresh-token is valid, refreshing your x-token!",
-								true
+								err,
+								false,
+								"x-refresh-token has expired, is invalid, or is blacklisted. Log in to get a new one."
 							);
+						} else {
+							if (decodedXRefreshToken) {
+								done(
+									null,
+									decodedXRefreshToken as xTokenPayload,
+									"x-refresh-token is valid, refreshing your x-token!",
+									true
+								);
+							}
 						}
 					}
-				});
+				);
 			} else {
 				decodedXToken && done(null, decodedXToken as xTokenPayload, "x-token is valid!");
 			}
@@ -43,7 +42,7 @@ const jwtVerifyCallback: JwtVerifyCallback = (done, xRefreshToken, xToken) => {
 	}
 
 	if (xToken && !xRefreshToken) {
-		jwt.verify(xToken, PUB_KEY, (err, decodedXToken) => {
+		jwt.verify(xToken, process.env.PUB_KEY as string, (err, decodedXToken) => {
 			if (err) {
 				done(err, false, "x-token has expired or is invalid. Log in to get a new one.");
 			} else {
@@ -53,7 +52,7 @@ const jwtVerifyCallback: JwtVerifyCallback = (done, xRefreshToken, xToken) => {
 	}
 
 	if (!xToken && xRefreshToken) {
-		jwt.verify(xRefreshToken, PUB_KEY, (err, decodedXRefreshToken) => {
+		jwt.verify(xRefreshToken, process.env.PUB_KEY as string, (err, decodedXRefreshToken) => {
 			if (err) {
 				done(
 					err,
