@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node dist/server.js",
 		"dev": "nodemon ./src/server.ts",
-		"build": "tsc",
+		"build": "tsc && rm -r ./src",
 		"seed": "cd api/models && npx ts-node migrations && npx ts-node seed"
 	},
 	"author": "Dawid Dahl",
