@@ -20,7 +20,7 @@ export const forgotMyPasswordController = async (req: Request, res: Response) =>
 			try {
 				const xToken = await issueAccessToken(
 					rows[0].id,
-					process.env.PRIV_KEY as string,
+					JSON.parse(process.env.PRIV_KEY as string),
 					"1h"
 				);
 

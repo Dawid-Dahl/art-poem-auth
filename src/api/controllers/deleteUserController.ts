@@ -18,7 +18,7 @@ export const deleteUserController = (req: Request, res: Response, next: NextFunc
 		return;
 	}
 
-	jwt.verify(xToken, process.env.PUB_KEY as string, async (err, decodedJwt) => {
+	jwt.verify(xToken, JSON.parse(process.env.PUB_KEY as string), async (err, decodedJwt) => {
 		if (err) {
 			console.log(err);
 			res.status(401).json(

@@ -14,9 +14,11 @@ export const registerController = async (req: Request, res: Response) => {
 
 	const id = generateId();
 
-	const xToken = await issueAccessToken(id, process.env.PRIV_KEY as string, "30d").catch(err =>
-		console.log(err)
-	);
+	const xToken = await issueAccessToken(
+		id,
+		JSON.parse(process.env.PRIV_KEY as string),
+		"30d"
+	).catch(err => console.log(err));
 
 	if (!xToken) throw new Error("Something went wrong while issueing the access token!");
 
