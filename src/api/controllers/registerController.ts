@@ -14,6 +14,8 @@ export const registerController = async (req: Request, res: Response) => {
 
 	const id = generateId();
 
+	console.log("PRIV KEY IS: ", process.env.PRIV_KEY);
+
 	try {
 		const xToken = await issueAccessToken(
 			id,
