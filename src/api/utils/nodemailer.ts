@@ -13,8 +13,13 @@ export const sendEmail = (template: Mail.Options) => async () => {
 			port: 465,
 			secure: true,
 			auth: {
+				type: "OAuth2",
 				user: process.env.EMAIL_TRANSPORT_USER,
-				pass: process.env.EMAIL_TRANSPORT_PASSWORD,
+				clientId: process.env.EMAIL_TRANSPORT_CLIENT_ID,
+				clientSecret: process.env.EMAIL_TRANSPORT_CLIENT_SECRET,
+				refreshToken: process.env.EMAIL_TRANSPORT_REFRESH_TOKEN,
+				accessToken: process.env.EMAIL_TRANSPORT_ACCESS_TOKEN,
+				expires: 3599,
 			},
 		});
 
