@@ -44,8 +44,18 @@ export const loginController = async (req: Request, res: Response, next: NextFun
 		if (isMatch) {
 			const user = constructUserWithoutPasswordFromSqlResult(rows[0]);
 
-			const xTokenPromise = issueAccessToken(user.id, process.env.PRIV_KEY as string);
-			const xRefreshTokenPromise = issueRefreshToken(user, process.env.PRIV_KEY as string);
+			const xTokenPromise = issueAccessToken(
+				user.id,
+				process.env.NODE_ENV === "production"
+					? (process.env.PRIV_KEY as string)
+					: process.env.PRIV_KEY!.replace(/\\n/g, "\n")
+			);
+			const xRefreshTokenPromise = issueRefreshToken(
+				user,
+				process.env.NODE_ENV === "production"
+					? (process.env.PRIV_KEY as string)
+					: process.env.PRIV_KEY!.replace(/\\n/g, "\n")
+			);
 
 			Promise.all([xTokenPromise, xRefreshTokenPromise])
 				.then(values => {

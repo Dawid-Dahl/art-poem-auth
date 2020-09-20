@@ -20,7 +20,9 @@ export const forgotMyPasswordController = async (req: Request, res: Response) =>
 			try {
 				const xToken = await issueAccessToken(
 					rows[0].id,
-					process.env.PRIV_KEY as string,
+					process.env.NODE_ENV === "production"
+						? (process.env.PRIV_KEY as string)
+						: process.env.PRIV_KEY!.replace(/\\n/g, "\n"),
 					"1h"
 				);
 

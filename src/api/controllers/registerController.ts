@@ -17,7 +17,9 @@ export const registerController = async (req: Request, res: Response) => {
 	try {
 		const xToken = await issueAccessToken(
 			id,
-			process.env.PRIV_KEY as string,
+			process.env.NODE_ENV === "production"
+				? (process.env.PRIV_KEY as string)
+				: process.env.PRIV_KEY!.replace(/\\n/g, "\n"),
 			"30d"
 		).catch(err => console.log(err));
 
